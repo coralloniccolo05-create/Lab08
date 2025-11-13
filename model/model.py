@@ -27,19 +27,23 @@ class Model:
         :return: lista di tuple --> (nome dell'impianto, media), es. (Impianto A, 123)
         """
         # TODO
-        count_kwh_A = []
-        count_kwh_B = []
+        consumi_per_impianto = {}
+        lista_result = []
         for impianto in self._impianti:
             lista_consumi = impianto.get_consumi()
             for consumo in lista_consumi:
-                while consumo.data.month == mese:
-                    if consumo.id_impianto == 1:
-                        count_kwh_A.append(int(consumo.kwh))
-                    elif consumo.id_impianto == 2:
-                        count_kwh_B.append(int(consumo.kwh))
-            media_A = sum(count_kwh_A) / len(count_kwh_A)
-            media_B = sum(count_kwh_B) / len(count_kwh_B)
-        return 'impianto A', media_A
+                if consumo.data.month == mese:
+                    if consumo.id_impianto not in consumi_per_impianto: #creo dizionario con gli id ch leggo
+                        consumi_per_impianto[consumo.id_impianto] = {'nome': impianto.nome,
+                                                                    'kwh': []}
+                    consumi_per_impianto[consumo.id_impianto]['kwh'].append(float(consumo.kwh))
+        for valori in consumi_per_impianto.values():
+            lista_consumi = valori['kwh']
+            media_consumi = sum(lista_consumi)/len(lista_consumi)
+            lista_result.append((valori['nome'], media_consumi))
+        return lista_result
+
+
 
 
     def get_sequenza_ottima(self, mese:int):
