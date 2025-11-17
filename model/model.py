@@ -44,8 +44,6 @@ class Model:
         return lista_result
 
 
-
-
     def get_sequenza_ottima(self, mese:int):
         """
         Calcola la sequenza ottimale di interventi nei primi 7 giorni
@@ -63,9 +61,16 @@ class Model:
         sequenza_nomi = [f"Giorno {giorno}: {id_to_nome[i]}" for giorno, i in enumerate(self.__sequenza_ottima, start=1)]
         return sequenza_nomi, self.__costo_ottimo
 
+
     def __ricorsione(self, sequenza_parziale, giorno, ultimo_impianto, costo_corrente, consumi_settimana):
         """ Implementa la ricorsione """
         # TODO
+        # Condizione terminale o di uscita
+        if ...:
+            ...
+        # Condizione ricorsiva
+        else:
+            ...
 
     def __get_consumi_prima_settimana_mese(self, mese: int):
         """
@@ -73,4 +78,15 @@ class Model:
         :return: un dizionario: {id_impianto: [kwh_giorno1, ..., kwh_giorno7]}
         """
         # TODO
+        consumi_prima_setttimana = {}
+        for impianto in self._impianti:
+            lista_consumi = impianto.get_consumi()
+            for consumo in lista_consumi:
+                if consumo.data.month == mese:
+                    if consumo.data.day <= 7:
+                        if consumo.id_impianto not in consumi_prima_setttimana: #creo dizionario con gli id ch leggo
+                            consumi_prima_setttimana[consumo.id_impianto] = {'id_impianto': impianto.id,
+                                                                             'kwh': []}
+                        consumi_prima_setttimana[consumo.id_impianto]['kwh'].append(float(consumo.kwh))
+        return consumi_prima_setttimana
 
